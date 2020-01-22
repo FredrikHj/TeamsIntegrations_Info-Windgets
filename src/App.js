@@ -22,13 +22,12 @@ function App() {
 const msalConfig = {
   auth: {
       clientId: 'fbb2c627-4588-4c2f-b6a4-0dfb5dc31330',
-      promt: 'Account'
+      redirectUrl: window.location
   }
 }
 
 // create UserAgentApplication instance
 const msalObj = new UserAgentApplication(msalConfig);
-console.log(msalObj);
 
 function authCallback(error, response) {
   //handle redirect response
@@ -37,6 +36,7 @@ function authCallback(error, response) {
 // (optional when using redirect methods) register redirect call back for Success or Error
 msalObj.handleRedirectCallback(authCallback);
 
+
 var loginRequest = {
   scopes: ["user.read", "mail.send"], // optional Array<string>
   prompt: 'select_account',
@@ -44,6 +44,8 @@ var loginRequest = {
 let accessTokenRequest = {
   scopes: ["user.read", "mail.send"]
 }
+
+
 msalObj.loginPopup(loginRequest).then(function (loginResponse) {               
   return msalObj.acquireTokenSilent(accessTokenRequest);
 }).then(function (accessTokenResponse) {
@@ -53,6 +55,7 @@ msalObj.loginPopup(loginRequest).then(function (loginResponse) {
 }).catch(function (error) {  
   //handle error
 });
+console.log(msalObj);
 
 /*   useEffect(() => {
   
