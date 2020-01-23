@@ -10,12 +10,12 @@ function App() {
 
   let loginAuth = () => {
     // Configuration object constructed
-    let clientId = "f419a7f3-aed6-42a9-9158-a877e14cff63";
+    let clientId = 'f419a7f3-aed6-42a9-9158-a877e14cff63';
     var msalConfig = {
       auth: {
         clientId: clientId,
-        authority: `https://login.microsoftonline.com/${clientId}`,
-        redirectURI: "http://localhost:3000"
+        authority: `https://login.microsoftonline.com/${'clientId'}`,
+        redirectURI: "http://localhost:3000/"
       },
       cache: {
         cacheLocation: "localStorage",
@@ -38,7 +38,6 @@ function App() {
     createNewInstance().acquireTokenSilent(loginRequest).then(function (tokenResponse) {
       setAccessToken(tokenResponse.accessToken);
       console.log(tokenResponse);
-      
     }).catch(function (error) {
       console.log(error);
     });
@@ -49,7 +48,7 @@ function App() {
   },[]);
   console.log(accessToken);
 
-Axios.get('https://graph.microsoft.com/v1.0/me/', {
+/* Axios.get('https://graph.microsoft.com/v1.0/me/', {
   headers: {
     Bearer: accessToken
   }
@@ -58,7 +57,7 @@ console.log(response);
 
 }).catch(error => {
   console.log(error.response);
-});
+}); */
 
  /*  function authCallback(error, response) {
     //handle redirect response
