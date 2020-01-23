@@ -4,12 +4,9 @@ import * as microsoftTeams from "@microsoft/teams-js";
 import { UserAgentApplication } from "msal";
 import { logDOM } from '@testing-library/react';
 import Axios from 'axios';
-let count = 0;
-let auth = '';
 
 function App() {
   const [ accessToken, setAccessToken ] = useState('');
-  let newInstance = null;
 
   let loginAuth = () => {
     // Configuration object constructed
@@ -18,7 +15,7 @@ function App() {
       auth: {
         clientId: clientId,
         authority: `https://login.microsoftonline.com/${clientId}`,
-        redirectURI: "http://localhost:3000/"
+        redirectURI: "http://localhost:3000"
       },
       cache: {
         cacheLocation: "localStorage",
@@ -36,10 +33,12 @@ function App() {
   }
   let getAuthtoken = () => {
     let loginRequest = {
-      scopes: ["user.read", "mail.send"], // optional Array<string>
+      scopes: ["user.read", "mail.send"] // optional Array<string>
     };
     createNewInstance().acquireTokenSilent(loginRequest).then(function (tokenResponse) {
       setAccessToken(tokenResponse.accessToken);
+      console.log(tokenResponse);
+      
     }).catch(function (error) {
       console.log(error);
     });
@@ -64,11 +63,8 @@ console.log(response);
  /*  function authCallback(error, response) {
     //handle redirect response
   }
-
   // (optional when using redirect methods) register redirect call back for Success or Error
   msalObj.handleRedirectCallback(authCallback);
-
-
 */
 
 
