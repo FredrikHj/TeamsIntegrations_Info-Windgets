@@ -10,7 +10,7 @@ function App() {
   },[]);
   
   let loginAuth = () => {
-    let programId = 'f419a7f3-aed6-42a9-9158-a877e14cff63';
+    let programId = '1a29bb77-9d79-4adf-933f-c95c3d0a62e9';
     // Configuration object constructed
     var msalConfig = {
       auth: {
@@ -34,7 +34,7 @@ function App() {
   }
   let getAuthtoken = () => {
     let loginRequest = {
-      scopes: ["user.read"], // optional Array<string>
+      scopes: ["user.read", "mail.Read"], // optional Array<string>
     };
     createNewInstance().acquireTokenSilent(loginRequest).then(function (response) {
       setAccessToken(response.accessToken);
@@ -64,15 +64,16 @@ function App() {
   return (
     
     <div className="App">
-      {
-          plannerData.map((data) => {
+      Teams Integrations 
+      {(plannerData.length !== 0) 
+        ? plannerData.map((data) => {
             console.log(data);
             return(
                 {data}
             )
           })
+        : 'Datan laddades inte in!'
       }
-      Teams Integrations 
 
 
     </div>
