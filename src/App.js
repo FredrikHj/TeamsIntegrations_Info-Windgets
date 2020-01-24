@@ -46,6 +46,7 @@ function App() {
   useEffect(() => {
     getAuthtoken();
   },[]);
+  
   console.log(accessToken);
   let runAxiosGet = (accessToken) => {
     Axios.get('https://graph.microsoft.com/v1.0/me/', {
