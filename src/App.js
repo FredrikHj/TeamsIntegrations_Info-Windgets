@@ -11,18 +11,10 @@ function App() {
   let loginAuth = () => {
     let programId = 'f419a7f3-aed6-42a9-9158-a877e14cff63';
     // Configuration object constructed
-<<<<<<< HEAD
     var msalConfig = {
       auth: {
         clientId: programId,
         authority: `https://login.microsoftonline.com/${programId}`,
-=======
-    let clientId = 'f419a7f3-aed6-42a9-9158-a877e14cff63';
-    var msalConfig = {
-      auth: {
-        clientId: clientId,
-        authority: `https://login.microsoftonline.com/${'clientId'}`,
->>>>>>> 308043f71dd27a049107fca5f4b4170f9d22bc3e
         redirectURI: "http://localhost:3000/"
       },
       cache: {
@@ -86,8 +78,6 @@ console.log(response);
   // (optional when using redirect methods) register redirect call back for Success or Error
   msalObj.handleRedirectCallback(authCallback);
 */
-
->>>>>>> 308043f71dd27a049107fca5f4b4170f9d22bc3e
 
   return (
     
