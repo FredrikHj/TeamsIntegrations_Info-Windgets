@@ -35,7 +35,7 @@ function App() {
     let loginRequest = {
       scopes: ["user.read"], // optional Array<string>
     };
-    createNewInstance().acquireTokenSilent(loginRequest).then(function (tokenResponse) {
+    createNewInstance().loginPopup(loginRequest).then(function (tokenResponse) {
       setAccessToken(tokenResponse.accessToken);
       console.log(tokenResponse);
     }).catch(function (error) {
@@ -45,7 +45,7 @@ function App() {
     
   useEffect(() => {
     getAuthtoken();
-  },[]);
+  });
   
   console.log(accessToken);
   let runAxiosGet = (accessToken) => {
@@ -61,24 +61,6 @@ function App() {
     });
   }
   runAxiosGet( accessToken );
-
-/* Axios.get('https://graph.microsoft.com/v1.0/me/', {
-  headers: {
-    Bearer: accessToken
-  }
-}).then(response => {
-console.log(response);
-
-}).catch(error => {
-  console.log(error.response);
-}); */
-
- /*  function authCallback(error, response) {
-    //handle redirect response
-  }
-  // (optional when using redirect methods) register redirect call back for Success or Error
-  msalObj.handleRedirectCallback(authCallback);
-*/
 
   return (
     
