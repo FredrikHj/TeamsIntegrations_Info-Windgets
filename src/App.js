@@ -34,9 +34,9 @@ function App() {
   }
   let getAuthtoken = () => {
     let loginRequest = {
-      scopes: ["user.read", "mail.Read"], // optional Array<string>
+      scopes: ["user.read"], // optional Array<string>
     };
-    createNewInstance().acquireTokenSilent(loginRequest).then(function (response) {
+    createNewInstance().loginPopup(loginRequest).then(function (response) {
       setAccessToken(response.accessToken);
       console.log(response);
     }).catch(function (error) {
