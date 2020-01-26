@@ -30,20 +30,45 @@ function App() {
   console.log(plannerData);
   
   return (    
-    <div className="App">
-      Teams Integrations
+    <div className="appbody">
+      <header id="appHeadLineContainer">
+        <p id="appHeadLine">Teams Integrations</p>
+      </header>
+      <main>
+        {
+          plannerData.map((data) => {
+            console.log(data);
+ 
+            return (
+              <>
+                <header className="toDoHeadLineContainer">
+                  <section className="toDoHeadLinesBox">
+                    { data.toDoHeadLine }
+                  </section>  
+                </header>
 
-      {
+                <section>
+                  <section className="">
+{/*                     { 
+                      data.toDoCards.map((card) => {
 
-        plannerData.map((data) => {
-          console.log(data);
-          
+                        return(
+                          <section>
+                            <div className="">{ card.cardHedline }</div>
+                            <div className="">{ card.cardContent }</div>
+                          </section>
+                        );
+                      })
+                    } */}
+                  </section>
 
-          return (
-          <div>{ data.toDoHeadLine }</div>
-          )
-        })
-      }
+                </section>
+              </>
+
+            );
+          })
+        }
+      </main>
     </div>
   );
 }
