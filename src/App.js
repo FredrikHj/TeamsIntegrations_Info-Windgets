@@ -10,7 +10,7 @@ function App() {
  
   let getAuthtoken = () => {
     let loginRequest = {
-      scopes: ["user.read"], // optional Array<string>
+      scopes: ["user.read", "Group.Read.All", "Group.ReadWrite.All"], // optional Array<string>
     };
     createNewInstance().acquireTokenSilent(loginRequest).then(function (response) {
       setAccessToken(response.accessToken);
