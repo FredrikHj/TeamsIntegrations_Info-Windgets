@@ -19,55 +19,60 @@ function App() {
       console.log(error);
     });
   }
+
+  useEffect(() => {
+    if (!plannerData) return;
+  },[]);
   
-  
-    useEffect(() => {
-      if (!plannerData) return;
-    },[]);
-    
   getAuthtoken();
   runAxiosGet( accessToken );
   console.log(plannerData);
   
   return (    
     <div className="appbody">
+
       <header id="appHeadLineContainer">
         <p id="appHeadLine">Teams Integrations</p>
       </header>
+
       <main>
-        {
-          plannerData.map((data) => {
-            console.log(data);
- 
-            return (
-              <>
-                <header className="toDoHeadLineContainer">
-                  <section className="toDoHeadLinesBox">
-                    { data.toDoHeadLine }
-                  </section>  
-                </header>
+        <section className="toDoHeadLineContainer">
+          {
+            plannerData.map((data) => {
+              console.log(data);
 
-                <section>
-                  <section className="">
-{/*                     { 
-                      data.toDoCards.map((card) => {
-
+              return (
+                <section className="toDoHeadLinesBox">
+                  { data.toDoHeadLine }         
+                </section>
+              ); 
+            })
+          }
+        </section>  
+        <section id="toDoTaskContainer">
+          { 
+            plannerData.map((data) => {
+              console.log(data);
+              let getToDoCards = data.toDoCards;
+              
+                return(
+                  <section className="toDoTaskListContainer">
+                    {
+                      getToDoCards.map((cards) => {
                         return(
-                          <section>
-                            <div className="">{ card.cardHedline }</div>
-                            <div className="">{ card.cardContent }</div>
+                          <section className="toDoTaskBoxes">
+                            <div className="toDoTaskHeadLine">{ cards.cardHedline }</div>
+                            <hr></hr>
+                            <div className="toDoTaskHeadContent">{ cards.cardContent }</div>
                           </section>
                         );
                       })
-                    } */}
+                    }
                   </section>
-
-                </section>
-              </>
-
-            );
-          })
-        }
+                );
+            })
+          }
+        </section>
       </main>
     </div>
   );

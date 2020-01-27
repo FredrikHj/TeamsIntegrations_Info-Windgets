@@ -17,11 +17,11 @@ export let toDoList = [
       toDoCards: [
         {
           cardHedline: 'Card 1',
-          cardContent: 'refvrga',
+          cardContent: 'ferf',
         },
         {
           cardHedline: 'Card 2',
-          cardContent: 'ufyyuj',
+          cardContent: 'aebrt',
         }
       ]
     },
@@ -30,11 +30,11 @@ export let toDoList = [
       toDoCards: [
         {
           cardHedline: 'Card 1',
-          cardContent: 'refvrga',
+          cardContent: ',kj',
         },
         {
           cardHedline: 'Card 2',
-          cardContent: 'ufyyuj',
+          cardContent: ',fj,hj',
         }
       ]
     }

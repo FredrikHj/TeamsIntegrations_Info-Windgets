@@ -22,5 +22,7 @@ let loginAuth = () => {
 export let createNewInstance = () => {
 // create UserAgentApplication instance
 const msalObj = new UserAgentApplication(loginAuth());  
+console.log(msalObj);
+
 return msalObj;
 }
