@@ -49,21 +49,21 @@ function App() {
             })
           }
         </section>  
-        <section id="toDoTaskContainer">
+        <section id="toDoCardContainer">
           { 
             plannerData.map((data) => {
               console.log(data);
               let getToDoCards = data.toDoCards;
               
                 return(
-                  <section className="toDoTaskListContainer">
+                  <section className="toDoCardsListContainer">
                     {
                       getToDoCards.map((cards) => {
                         return(
-                          <section className="toDoTaskBoxes">
-                            <div className="toDoTaskHeadLine">{ cards.cardHedline }</div>
+                          <section className="toDoCardBoxes">
+                            <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
                             <hr></hr>
-                            <div className="toDoTaskHeadContent">{ cards.cardContent }</div>
+                            <div className="toDoCardHeadContent">{ cards.cardContent }</div>
                           </section>
                         );
                       })
