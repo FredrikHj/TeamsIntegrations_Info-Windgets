@@ -27,6 +27,12 @@ function App() {
   getAuthtoken();
   runAxiosGet( accessToken );
   console.log(plannerData);
+  let maxIndexSide = (cardsNr) => {
+    console.log(cardsNr);
+    
+    let test = `Sid 1`;
+    return test;
+  }
   
   return (    
     <div className="appbody">
@@ -68,6 +74,7 @@ function App() {
                         );
                       })
                     }
+                  <p>{maxIndexSide(getToDoCards.length)}</p>
                   </section>
                 );
             })
