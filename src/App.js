@@ -27,11 +27,10 @@ function App() {
   getAuthtoken();
   runAxiosGet( accessToken );
   console.log(plannerData);
-  let maxIndexSide = (cardsNr) => {
-    console.log(cardsNr);
-    
-    let test = `Sid 1`;
-    return test;
+  let maxIndexSide = (cardName) => {
+    let elementName = document.querySelectorAll('.toDoCardBoxes');
+    console.log(elementName);
+    return elementName;
   }
   
   return (    
@@ -44,11 +43,11 @@ function App() {
       <main>
         <section className="toDoHeadLineContainer">
           {
-            plannerData.map((data) => {
-              console.log(data);
+            plannerData.map((data, taskNr) => {
+              console.log(taskNr);
 
               return (
-                <section className="toDoHeadLinesBox">
+                <section key={ taskNr } className="toDoHeadLinesBox">
                   { data.toDoHeadLine }         
                 </section>
               ); 
@@ -57,16 +56,20 @@ function App() {
         </section>  
         <section id="toDoCardContainer">
           { 
-            plannerData.map((data) => {
+            plannerData.map((data, cardsNr) => {
               console.log(data);
+              let toDoCardContainerNames = data.toDoHeadLine;
               let getToDoCards = data.toDoCards;
               
                 return(
-                  <section className="toDoCardsListContainer">
+                  <section key={ cardsNr } className="toDoCardsListContainer">
                     {
-                      getToDoCards.map((cards) => {
+                      getToDoCards.map((cards, cardContentNr) => {
+                        let cardName = `${toDoCardContainerNames}Card${cardContentNr}`;
+                        maxIndexSide(cardName);
+                        
                         return(
-                          <section className="toDoCardBoxes">
+                          <section key={ cardContentNr } className="toDoCardBoxes" name={ cardName }>
                             <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
                             <hr></hr>
                             <div className="toDoCardHeadContent">{ cards.cardContent }</div>
@@ -74,11 +77,10 @@ function App() {
                         );
                       })
                     }
-                  <p>{maxIndexSide(getToDoCards.length)}</p>
                   </section>
                 );
-            })
-          }
+              })
+            }
         </section>
       </main>
     </div>
