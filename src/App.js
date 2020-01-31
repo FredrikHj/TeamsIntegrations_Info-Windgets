@@ -27,9 +27,13 @@ function App() {
   getAuthtoken();
   runAxiosGet( accessToken );
   console.log(plannerData);
-  let maxIndexSide = (cardName) => {
-    let elementName = document.querySelectorAll('.toDoCardBoxes');
-    console.log(elementName);
+  let removeBlankHeadline = (toDoHeadLine) => {
+    let removeBlankHeadline = `list${toDoHeadLine.split(' ')[1]}`;
+    return removeBlankHeadline;
+  }
+  let maxIndexSide = (cardName) => {    
+    let elementName = document.querySelectorAll(`.${cardName}`);
+    console.log(`.${cardName}`);
     return elementName;
   }
   
@@ -57,23 +61,21 @@ function App() {
         <section id="toDoCardContainer">
           { 
             plannerData.map((data, cardsNr) => {
-              console.log(data);
-              let toDoCardContainerNames = data.toDoHeadLine;
               let getToDoCards = data.toDoCards;
-              
+              //let cardName = 
                 return(
                   <section key={ cardsNr } className="toDoCardsListContainer">
                     {
                       getToDoCards.map((cards, cardContentNr) => {
-                        let cardName = `${toDoCardContainerNames}Card${cardContentNr}`;
+                        let cardName = `${removeBlankHeadline(data.toDoHeadLine)}Card${cardContentNr}`;
                         maxIndexSide(cardName);
                         
                         return(
-                          <section key={ cardContentNr } className="toDoCardBoxes" name={ cardName }>
+                          <div key={ cardContentNr } className={`toDoCardBoxes ${cardName}`}>
                             <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
                             <hr></hr>
                             <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                          </section>
+                          </div>
                         );
                       })
                     }
