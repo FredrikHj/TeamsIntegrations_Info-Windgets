@@ -6,23 +6,13 @@ import { toDoList } from './components/data/toDoList';
 
 function App() {
   const [ accessToken, setAccessToken ] = useState('');
-/*         authority: `https://login.microsoftonline.com/${'clientId'}`,
-        redirectURI: "http://localhost:3000/"
-      },
-      cache: {
-        cacheLocation: "localStorage",
-        storeAuthStateInCookie: true
-      }
-    };
-    return msalConfig;
-  } */
-  /* let createNewInstance = () => {
-    // create UserAgentApplication instance
-    const msalObj = new UserAgentApplication(loginAuth());
-    console.log(msalObj);
-    
-    return msalObj;
-  }
+  const [ plannerData, updatePlannerData ] = useState(toDoList);
+  let refCardContainer = React.createRef();
+
+
+  
+  //React.createRef();
+
   let getAuthtoken = () => {
     let loginRequest = {
       scopes: ["user.read", "mail.send"] // optional Array<string>
@@ -32,33 +22,29 @@ function App() {
       console.log(response);
     }).catch(function (error) {
       console.log(error);
-    }); */
-
+    });
+  }
   useEffect(() => {
     if (!plannerData) return;
-    maxIndexSide()
   },[]);
   console.log(accessToken);
+  getAuthtoken();
+  runAxiosGet( accessToken );
+  console.log(plannerData);
+  /*   let removeBlankHeadline = (toDoHeadLine) => {
+    let removeBlankHeadline = `list${toDoHeadLine.split(' ')[1]}`;
+    return removeBlankHeadline;
+  } */
+  let setElementHeight = () => {
+    let refsDomObj = {};
+    setTimeout(() => {
+      refsDomObj = {
+        heightCardContainer: refCardContainer.current.offsetHeight,
+      };  
+      console.log(refsDomObj);
+    }, 1000);
 
-/* Axios.get('https://graph.microsoft.com/v1.0/me/', {
-  headers: {
-    Bearer: accessToken
   }
-}).then(response => {
-console.log(response);
-
-}).catch(error => {
-  console.log(error.response);
-}); */
-
- /*  function authCallback(error, response) {
-    //handle redirect response
-  }
-  // (optional when using redirect methods) register redirect call back for Success or Error
-  msalObj.handleRedirectCallback(authCallback);
-*/
-
-
   return (
     
     <div className="App">
@@ -79,11 +65,11 @@ console.log(response);
             })
           }
         </section>  
-        <section id="toDoCardContainer">
-          { 
+        <section id="toDoCardContainer" ref={ refCardContainer }>
+          {setElementHeight()}
+          {
             plannerData.map((data, cardsNr) => {
               let getToDoCards = data.toDoCards;
-              //let cardName = 
               return(
                 <section key={ cardsNr } className="toDoCardsListContainer">
                     {
@@ -100,7 +86,6 @@ console.log(response);
                     }
                   </section>
                 );
-                
               })
             }
         </section>
