@@ -16,7 +16,7 @@ function App() {
     };
     return msalConfig;
   } */
-  let createNewInstance = () => {
+  /* let createNewInstance = () => {
     // create UserAgentApplication instance
     const msalObj = new UserAgentApplication(loginAuth());
     console.log(msalObj);
@@ -32,7 +32,7 @@ function App() {
       console.log(response);
     }).catch(function (error) {
       console.log(error);
-    });
+    }); */
 
   useEffect(() => {
     if (!plannerData) return;
@@ -108,4 +108,5 @@ console.log(response);
     </div>
   );
 }
+
 export default App;
