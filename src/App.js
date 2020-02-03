@@ -6,11 +6,26 @@ import { toDoList } from './components/data/toDoList';
 
 function App() {
   const [ accessToken, setAccessToken ] = useState('');
-  const [ plannerData, updatePlannerData ] = useState(toDoList);
- 
+/*         authority: `https://login.microsoftonline.com/${'clientId'}`,
+        redirectURI: "http://localhost:3000/"
+      },
+      cache: {
+        cacheLocation: "localStorage",
+        storeAuthStateInCookie: true
+      }
+    };
+    return msalConfig;
+  } */
+  let createNewInstance = () => {
+    // create UserAgentApplication instance
+    const msalObj = new UserAgentApplication(loginAuth());
+    console.log(msalObj);
+    
+    return msalObj;
+  }
   let getAuthtoken = () => {
     let loginRequest = {
-      scopes: ["user.read", "Group.Read.All", "Group.ReadWrite.All"], // optional Array<string>
+      scopes: ["user.read", "mail.send"] // optional Array<string>
     };
     createNewInstance().acquireTokenSilent(loginRequest).then(function (response) {
       setAccessToken(response.accessToken);
@@ -18,32 +33,37 @@ function App() {
     }).catch(function (error) {
       console.log(error);
     });
-  }
 
   useEffect(() => {
     if (!plannerData) return;
     maxIndexSide()
   },[]);
-  
-  getAuthtoken();
-  runAxiosGet( accessToken );
-  console.log(plannerData);
-/*   let removeBlankHeadline = (toDoHeadLine) => {
-    let removeBlankHeadline = `list${toDoHeadLine.split(' ')[1]}`;
-    return removeBlankHeadline;
-  } */
-  let maxIndexSide = () => {    
-    let elementName = document.querySelectorAll('.toDoCardBoxes');    
-    console.log(elementName);
-    //return elementName;
+  console.log(accessToken);
+
+/* Axios.get('https://graph.microsoft.com/v1.0/me/', {
+  headers: {
+    Bearer: accessToken
   }
-  
-  return (    
-    <div className="appbody">
-      
-      <header id="appHeadLineContainer">
-        <p id="appHeadLine">Teams Integrations</p>
-      </header>
+}).then(response => {
+console.log(response);
+
+}).catch(error => {
+  console.log(error.response);
+}); */
+
+ /*  function authCallback(error, response) {
+    //handle redirect response
+  }
+  // (optional when using redirect methods) register redirect call back for Success or Error
+  msalObj.handleRedirectCallback(authCallback);
+*/
+
+
+  return (
+    
+    <div className="App">
+
+      Teams Integrations 
 
       <main>
         <section className="toDoHeadLineContainer">
