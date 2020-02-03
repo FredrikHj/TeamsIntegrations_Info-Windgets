@@ -22,20 +22,25 @@ function App() {
 
   useEffect(() => {
     if (!plannerData) return;
+    maxIndexSide()
   },[]);
   
   getAuthtoken();
   runAxiosGet( accessToken );
   console.log(plannerData);
-  let maxIndexSide = (cardName) => {
-    let elementName = document.querySelectorAll('.toDoCardBoxes');
+/*   let removeBlankHeadline = (toDoHeadLine) => {
+    let removeBlankHeadline = `list${toDoHeadLine.split(' ')[1]}`;
+    return removeBlankHeadline;
+  } */
+  let maxIndexSide = () => {    
+    let elementName = document.querySelectorAll('.toDoCardBoxes');    
     console.log(elementName);
-    return elementName;
+    //return elementName;
   }
   
   return (    
     <div className="appbody">
-
+      
       <header id="appHeadLineContainer">
         <p id="appHeadLine">Teams Integrations</p>
       </header>
@@ -45,7 +50,7 @@ function App() {
           {
             plannerData.map((data, taskNr) => {
               console.log(taskNr);
-
+              
               return (
                 <section key={ taskNr } className="toDoHeadLinesBox">
                   { data.toDoHeadLine }         
@@ -57,28 +62,25 @@ function App() {
         <section id="toDoCardContainer">
           { 
             plannerData.map((data, cardsNr) => {
-              console.log(data);
-              let toDoCardContainerNames = data.toDoHeadLine;
               let getToDoCards = data.toDoCards;
-              
-                return(
-                  <section key={ cardsNr } className="toDoCardsListContainer">
+              //let cardName = 
+              return(
+                <section key={ cardsNr } className="toDoCardsListContainer">
                     {
                       getToDoCards.map((cards, cardContentNr) => {
-                        let cardName = `${toDoCardContainerNames}Card${cardContentNr}`;
-                        maxIndexSide(cardName);
-                        
+                        //let cardName = `${removeBlankHeadline(data.toDoHeadLine)}Card${cardContentNr}`;
                         return(
-                          <section key={ cardContentNr } className="toDoCardBoxes" name={ cardName }>
+                          <div key={ cardContentNr } className="toDoCardBoxes">
                             <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
                             <hr></hr>
                             <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                          </section>
+                          </div>
                         );
                       })
                     }
                   </section>
                 );
+                
               })
             }
         </section>
@@ -86,5 +88,4 @@ function App() {
     </div>
   );
 }
-
 export default App;
