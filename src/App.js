@@ -7,10 +7,10 @@ import { toDoList } from './components/data/toDoList';
 function App() {
   const [ accessToken, setAccessToken ] = useState('');
   const [ plannerData, updatePlannerData ] = useState(toDoList);
-  let refCardContainer = React.createRef();
+  let refHeightCardsObj = {}
+  let createBoxName = [];
+  let refHeightCardContainer = React.createRef();
 
-
-  
   //React.createRef();
 
   let getAuthtoken = () => {
@@ -35,61 +35,84 @@ function App() {
     let removeBlankHeadline = `list${toDoHeadLine.split(' ')[1]}`;
     return removeBlankHeadline;
   } */
-  let setElementHeight = () => {
-    let refsDomObj = {};
-    setTimeout(() => {
+  let setCardOfSide = () => {
+    console.log(refHeightCardsObj);
+
+/*     setTimeout(() => {
       refsDomObj = {
         heightCardContainer: refCardContainer.current.offsetHeight,
       };  
       console.log(refsDomObj);
-    }, 1000);
+    }, 1000); */
 
   }
+  
   return (
     
-    <div className="App">
+    <div id="appbody">
 
       Teams Integrations 
 
       <main>
         <section className="toDoHeadLineContainer">
           {
-            plannerData.map((data, taskNr) => {
-              console.log(taskNr);
+            plannerData.map((dataLists, listNr) => {
+              console.log(listNr);
               
               return (
-                <section key={ taskNr } className="toDoHeadLinesBox">
-                  { data.toDoHeadLine }         
+                <section key={ listNr } className="toDoHeadLinesBox">
+                  { dataLists.toDoHeadLine }         
                 </section>
               ); 
             })
           }
         </section>  
-        <section id="toDoCardContainer" ref={ refCardContainer }>
-          {setElementHeight()}
+        <section id="toDoCardContainer" ref={ refHeightCardContainer }>
           {
-            plannerData.map((data, cardsNr) => {
-              let getToDoCards = data.toDoCards;
+            plannerData.map((dataLists, listNr) => {
+
+              let getToDoCards = dataLists.toDoCards;
+              let listName = `list${listNr+1}`;
+
               return(
-                <section key={ cardsNr } className="toDoCardsListContainer">
-                    {
-                      getToDoCards.map((cards, cardContentNr) => {
-                        //let cardName = `${removeBlankHeadline(data.toDoHeadLine)}Card${cardContentNr}`;
-                        return(
-                          <div key={ cardContentNr } className="toDoCardBoxes">
-                            <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
-                            <hr></hr>
-                            <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                          </div>
-                        );
-                      })
-                    }
-                  </section>
-                );
-              })
-            }
+                <section key={ listNr } className="toDoCardsListContainer">
+                  {
+                    getToDoCards.map((cards, cardBoxNr) => {
+                      
+                      let cardBoxName = `toDoCardBoxes${cardBoxNr}`;
+                      console.log(cardBoxName);
+                      createBoxName.push(React.createRef());
+
+                      refHeightCardsObj[listName] = createBoxName;
+
+                      return(
+                        <div key={ cardBoxNr } className="toDoCardBoxes" /* ref={ createBoxName[cardBoxName] } */>
+                          <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
+                          <hr></hr>
+                          <div className="toDoCardHeadContent">{ cards.cardContent }</div>
+                        </div>
+                      );
+                    })
+                  }
+                </section>
+              );
+            })
+          }
         </section>
+        <footer id="toDoCardSidesContainer">
+          {
+            plannerData.map((dataLists, listNr) => {
+              console.log(listNr);
+              return(
+                <section key={ listNr } className="toDoHeadLinesBox toDoCardSides">
+                  {`Sidan ${'1'} av ${'1'}`}
+                </section>
+              );
+            })
+          }
+        </footer>
       </main>
+      {setCardOfSide()}
     </div>
   );
 }
