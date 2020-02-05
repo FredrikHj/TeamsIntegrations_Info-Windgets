@@ -3,12 +3,13 @@ import './components/css/App.sass';
 import { createNewInstance } from './components/data/authentication';
 import { runAxiosGet } from './components/data/axiosGet';
 import { toDoList } from './components/data/toDoList';
+import { LogLevel } from 'msal';
 
 function App() {
   //const [ accessToken, setAccessToken ] = useState('');
   const [ plannerData, updatePlannerData ] = useState(toDoList);
   let refHeightCardContainer = React.createRef();
-  let domHeightObj = {};
+  let domHeightArr = [];
   let refHeightCardsArr = [];
   let heightCardBoxesArr = [];
 
@@ -36,52 +37,47 @@ function App() {
     arg 2 = Nr1 calculating
     arg 3 = Nr2 calculating
   */
-  let calcHeightOfCardContainers = () => {
-    let listTot = 0;
-    let cardBoxesArr = domHeightObj.heightCardBoxesArr;
-    for (const indexKey in cardBoxesArr) {
-      let intoLists = cardBoxesArr[indexKey];
-      intoLists.map((indexValue) => {
-        listTot += indexValue;
-        
-      })
-      console.log(listTot);
-    }
-    
-    /* 
-    for (let index = 0; index < cardBoxesArr.length; index++) {
-      const element = cardBoxesArr[index];
-      console.log(element);
-      
-    } */
+  let calcHeightOfCardBoxes = (listNr) => {
+    let getIntoList = domHeightArr[1][listNr];    
+    let savedListTot = 0;
+    // Tot marg of a list
+    let marginOfCardBox = 20*getIntoList.length;    
+
+    for (let index = 0; index  < getIntoList.length; index++) {
+      //Save the tot of a list array at the end as the last index in that array
+      savedListTot += getIntoList[index];
+      if (index === getIntoList.length - 1) domHeightArr[2].push(savedListTot+marginOfCardBox);
+    }    
   }
-  let setCardBoxesHeight = () => {
-    let heightCardContainer = 0;
-    
-    
+  let setCardBoxesHeight = () => {   
     setTimeout(() => {
       //Save it to its space
-      domHeightObj['cardContainer'] = refHeightCardContainer.current.offsetHeight;      
+      domHeightArr.push(refHeightCardContainer.current.offsetHeight);      
+      /*
+        Index 0 = cardContainers height.
+        Index 1 = Arrays of the lists. 
+          Index 1 is the tot of the other index values!
+          Index > 1 is the height of the corresponding cardboxes. 
+            The data are numbers an rep... the element height
+      */
+      domHeightArr.push(heightCardBoxesArr);
+      domHeightArr.push([]);
       refHeightCardsArr.map((toDoList, countList) => {
+        heightCardBoxesArr.push([]);
         
         // Createing an array placing the boxes heights. The last index is tot in the list
-        heightCardBoxesArr.push([]);
-        domHeightObj['heightCardBoxesArr'] = heightCardBoxesArr;
+        
+        //domHeightArr[1][countList].push(0);
         
         toDoList.map((toDoBoxes, countBoxes) => {
-          console.log(toDoList[countBoxes].current.id);
-          domHeightObj.heightCardBoxesArr[countList].push(refHeightCardsArr[countList][countBoxes].current.offsetHeight);   
+          domHeightArr[1][countList].push(refHeightCardsArr[countList][countBoxes].current.offsetHeight);   
+          let getListHeightValues = toDoBoxes.current.offsetHeight;
           
-          /* let getListHeightValues = toDoBoxes.current.offsetHeight;
-          if (toDoBoxes.current.id === `list${countList}`) {
-            domHeightObj.heightCardBoxesArr[countList].shift('cd')
-          } */
-          //console.log(getListHeightValues);
-        
         })
       });
-      console.log(domHeightObj);
-      //calcHeightOfCardContainers();
+      
+      console.log(domHeightArr[2]);
+      
     }, 1000);
   }
   
@@ -107,8 +103,8 @@ function App() {
         </section>  
         <section id="toDoCardContainer" ref={ refHeightCardContainer }>
           {
-            plannerData.map((dataLists, listNr) => {
-              let listName = `list${listNr}`;
+            plannerData.map((dataLists, countList) => {
+              let listName = `list${countList}`;
               
               let getToDoCards = dataLists.toDoCards;
 
@@ -116,13 +112,13 @@ function App() {
 
 
               return(
-                <section key={ listNr } className="toDoCardsListContainer">
+                <section key={ countList } className="toDoCardsListContainer">
                   {
                     getToDoCards.map((cards, cardBoxNr) => {
-                      refHeightCardsArr[listNr].push(React.createRef());
+                      refHeightCardsArr[countList].push(React.createRef());
 
                       return(
-                        <div key={ cardBoxNr } className="toDoCardBoxes" ref={ refHeightCardsArr[listNr][cardBoxNr]} id={ listName }>
+                        <div key={ cardBoxNr } className="toDoCardBoxes" ref={ refHeightCardsArr[countList][cardBoxNr]} id={ listName }>
                           <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
                           <hr></hr>
                           <div className="toDoCardHeadContent">{ cards.cardContent }</div>
@@ -131,17 +127,32 @@ function App() {
 
                     })
                   }
-                  <section key={ listNr } className="toDoHeadLinesBox toDoCardSides">
-                    {`Sidan ${'1'} av ${'1'}`}
-                  </section>
+                 
                 </section>
-                
               );
             })
           }
         </section>
       </main>
       {setCardBoxesHeight()}
+      <footer id="toDoCardSidesContainer">
+        {
+            plannerData.map((dataLists, countList) => {            
+              let getToDoCards = dataLists.toDoCards;
+              
+              setTimeout(() => {
+                calcHeightOfCardBoxes(countList);
+              }, 3000);
+
+              return(
+                <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
+                  {`Sidan ${'1'} av ${'1'}`}
+                </section>
+              );
+              
+            })
+        }
+      </footer>
     </div>
   );
 }
