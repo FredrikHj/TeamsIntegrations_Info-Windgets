@@ -30,7 +30,7 @@ function App() {
   useEffect(() => {
    if (!plannerData) return;
    createHeightArr();
-  },[footerArr]);
+  }, footerArr);
 /*   console.log(accessToken);
   getAuthtoken();
   runAxiosGet( accessToken ); */
@@ -87,12 +87,24 @@ console.log(showCardBoxPage);
     });
   }
   let promiseFooterArr = new Promise((success, error) => {
-    if (footerArr.length < 0) {
-      success();
-    }
+      setTimeout(() => {
+        updateFooterArr(footerArr);
+
+        success(footerArr);
+      console.log('Inne');
+    })
   })
-  console.log(footerArr);
-  
+  promiseFooterArr.then(data => {
+    console.log(data);
+    updateFooterArr(data);
+    console.log(footerArr[1]);
+    return footerArr;
+  })
+  console.log(promiseFooterArr);
+  let tet = promiseFooterArr.then(data => data);
+
+  console.log(tet);
+
   return (
     
     <div id="appbody">
@@ -149,9 +161,18 @@ console.log(showCardBoxPage);
       <footer id="toDoCardSidesContainer">
         {
             plannerData.map((dataLists, countList) => {            
+
+              
               return(
                 <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
-                  {promiseFooterArr.then(() => footerArr[countList]).value}
+                  {
+                    promiseFooterArr.then(data => {
+                      console.log(data);
+                      updateFooterArr(data);
+                      console.log(footerArr[1]);
+                      return footerArr;
+                    })
+                  }
                 </section>
               );
               
