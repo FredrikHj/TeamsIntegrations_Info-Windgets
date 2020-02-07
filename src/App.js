@@ -1,17 +1,22 @@
 import React, { useEffect, useState} from 'react';
-import './components/css/App.sass';
+import './components/styles/App.sass';
+
 import { createNewInstance } from './components/data/authentication';
 import { runAxiosGet } from './components/data/axiosGet';
 import { toDoList } from './components/data/toDoList';
 import { LogLevel } from 'msal';
+import style from './components/styles/common.sass';
+let cardBoxSpace = 40;
+let refHeightCardContainer = React.createRef();
+let heightCardBoxesArr = [];
+let refHeightCardsArr = [];
+let domHeightArr = [];
+let footerArr = [];
 
 const App = () => {
   //const [ accessToken, setAccessToken ] = useState('');
   const [ plannerData, updatePlannerData ] = useState(toDoList);
-  let refHeightCardContainer = React.createRef();
-  let domHeightArr = [];
-  let refHeightCardsArr = [];
-  let heightCardBoxesArr = [];
+  const [ footerCalc, setFooterCalc ] = useState(false); 
   let promiseFooterArr = new Promise(success => {
     window.onload = (event) => {
       createHeightArr();
@@ -19,7 +24,6 @@ const App = () => {
     };
   
   })
-  //let footerArr = [];
 
 /*   let getAuthtoken = () => {
     let loginRequest = {
@@ -35,35 +39,27 @@ const App = () => {
   */ 
   useEffect(() => {
     if (!plannerData) return;
-  }, [heightCardBoxesArr]);
+  }, [footerArr, footerCalc]);
 /*   console.log(accessToken);
   getAuthtoken();
   runAxiosGet( accessToken ); */
   console.log(plannerData);
 
-
   let createHeightArr = () => {
-    let listNr = 0;
     domHeightArr.push(refHeightCardContainer.current.offsetHeight);      
-    console.log(refHeightCardContainer);
 
     //Save it to its space
     /*
     Index 0 = cardContainers height.
-    Index 1 = Arrays of the lists. 
-    Index 1 is the tot of the other index values!
-    Index > 1 is the height of the corresponding cardboxes. 
-    The data are numbers an rep... the element height
+    Index 1 = Arrays of the lists and holding the height values of the list cards 
+    Index 2 is the tot of the values for the specific list!
     */
     domHeightArr.push(heightCardBoxesArr);
     domHeightArr.push([]);
     refHeightCardsArr.map((toDoList, countList) => {
       heightCardBoxesArr.push([]);
-      
-      // Createing an array placing the boxes heights. The last index is tot in the list     
       toDoList.map((toDoBoxes, countBoxes) => {
-        domHeightArr[1][countList].push(refHeightCardsArr[countList][countBoxes].current.offsetHeight);           
-        listNr = countList;
+        domHeightArr[1][countList].push(refHeightCardsArr[countList][countBoxes].current.offsetHeight+40/* +style.cardBoxSpace */);
       })  
 
       calcHeighOtfCardBoxes(countList)
@@ -85,35 +81,26 @@ const App = () => {
     return showCardBoxPage;
   }
     promiseFooterArr.then((data) => {
-      calcListSide();
+      calcCardOfSide();
+      setFooterCalc(true);
     })
-    let calcListSide = () => {
-      plannerData.map((data, countList) => {
-        console.log(countList);
-        let calcListSpace = 20*domHeightArr[1][countList].length;
-        let calcListCardHeight = domHeightArr[2][countList];
+    let calcCardOfSide = () => {
+      let heightCardContainer = domHeightArr[0];
+      let heightCardBox = domHeightArr[1][0][0];
+      let maxCardShowing = heightCardContainer/heightCardBox;
+ 
+      for (let index = 0; index < domHeightArr[1].length; index++) {
+        let cardQuantity = domHeightArr[1][index].length;
+        let maxListPages = cardQuantity/maxCardShowing;
+        let setListPage = Math.round(maxListPages);
 
-console.log(calcListSpace+calcListCardHeight);
+        footerArr.push(setListPage);        
+      }  
+    }    
 
-
-        console.log(domHeightArr[0]/domHeightArr[2][countList]);
-        
-        
-        
-      })
-
-      
-      
-      console.log(domHeightArr);
-    }
-    console.log(refHeightCardContainer);
-    
-    return (
-      
+  return (
     <div id="appbody">
-
-      Teams Integrations 
-
+        Teams Integrations 
       <main>
         <section className="toDoHeadLineContainer">
           {
@@ -166,7 +153,7 @@ console.log(calcListSpace+calcListCardHeight);
           
             return(
               <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
-                {tes}
+                {`Sid ${'1'} av ${footerArr[countList]}`}
               </section>
             );
           })
