@@ -5,14 +5,20 @@ import { runAxiosGet } from './components/data/axiosGet';
 import { toDoList } from './components/data/toDoList';
 import { LogLevel } from 'msal';
 
-function App() {
+const App = () => {
   //const [ accessToken, setAccessToken ] = useState('');
   const [ plannerData, updatePlannerData ] = useState(toDoList);
-  const [ footerArr, updateFooterArr ] = useState([]);
   let refHeightCardContainer = React.createRef();
   let domHeightArr = [];
   let refHeightCardsArr = [];
   let heightCardBoxesArr = [];
+  let promiseFooterArr = new Promise(success => {
+    window.onload = (event) => {
+      createHeightArr();
+      success();
+    };
+  
+  })
   //let footerArr = [];
 
 /*   let getAuthtoken = () => {
@@ -26,41 +32,20 @@ function App() {
       console.log(error);
     });
   }
- */ 
+  */ 
   useEffect(() => {
-   if (!plannerData) return;
-   createHeightArr();
-  }, footerArr);
+    if (!plannerData) return;
+  }, [heightCardBoxesArr]);
 /*   console.log(accessToken);
   getAuthtoken();
   runAxiosGet( accessToken ); */
   console.log(plannerData);
 
-  /* The function willl take three argumment = calMaxCardOfContainers(arg1 ,arg2, arg3) ...
-    arg 1 = What list
-    arg 2 = Nr1 calculating
-    arg 3 = Nr2 calculating
-  */
-  let calcHeighOtfCardBoxes = (listNr) => {
-    let getIntoList = domHeightArr[1][listNr];  
-    let showCardBoxPage = getIntoList.length;
-    
-    let savedListTot = 0;
-    // Tot marg of a list
-    let marginOfCardBox = 20*getIntoList.length;    
 
-    for (let index = 0; index  < getIntoList.length; index++) {
-      //Save the tot of a list array at the end as the last index in that array
-      savedListTot += getIntoList[index];
-      if (index === getIntoList.length - 1) domHeightArr[2].push(savedListTot+marginOfCardBox);
-    }
-console.log(showCardBoxPage);
-
-    return showCardBoxPage;
-  }
   let createHeightArr = () => {
     let listNr = 0;
     domHeightArr.push(refHeightCardContainer.current.offsetHeight);      
+    console.log(refHeightCardContainer);
 
     //Save it to its space
     /*
@@ -73,40 +58,58 @@ console.log(showCardBoxPage);
     domHeightArr.push(heightCardBoxesArr);
     domHeightArr.push([]);
     refHeightCardsArr.map((toDoList, countList) => {
-    heightCardBoxesArr.push([]);
+      heightCardBoxesArr.push([]);
       
-      // Createing an array placing the boxes heights. The last index is tot in the list
-      
-      //domHeightArr[1][countList].push(0);
-      
+      // Createing an array placing the boxes heights. The last index is tot in the list     
       toDoList.map((toDoBoxes, countBoxes) => {
         domHeightArr[1][countList].push(refHeightCardsArr[countList][countBoxes].current.offsetHeight);           
         listNr = countList;
-      })      
-      footerArr.push(calcHeighOtfCardBoxes(listNr));
+      })  
+
+      calcHeighOtfCardBoxes(countList)
     });
   }
-  let promiseFooterArr = new Promise((success, error) => {
-      setTimeout(() => {
-        updateFooterArr(footerArr);
-
-        success(footerArr);
-      console.log('Inne');
-    })
-  })
-  promiseFooterArr.then(data => {
-    console.log(data);
-    updateFooterArr(data);
-    console.log(footerArr[1]);
-    return footerArr;
-  })
-  console.log(promiseFooterArr);
-  let tet = promiseFooterArr.then(data => data);
-
-  console.log(tet);
-
-  return (
+  let calcHeighOtfCardBoxes = (listNr) => {
+    let getIntoList = domHeightArr[1][listNr];  
+    let showCardBoxPage = getIntoList.length;
     
+    let savedListTot = 0;
+
+    for (let index = 0; index  < getIntoList.length; index++) {
+      //Save the tot of a list array at the end as the last index in that array
+      savedListTot += getIntoList[index];
+      if (index === getIntoList.length - 1) domHeightArr[2].push(savedListTot);
+    }
+    console.log(showCardBoxPage);
+    
+    return showCardBoxPage;
+  }
+    promiseFooterArr.then((data) => {
+      calcListSide();
+    })
+    let calcListSide = () => {
+      plannerData.map((data, countList) => {
+        console.log(countList);
+        let calcListSpace = 20*domHeightArr[1][countList].length;
+        let calcListCardHeight = domHeightArr[2][countList];
+
+console.log(calcListSpace+calcListCardHeight);
+
+
+        console.log(domHeightArr[0]/domHeightArr[2][countList]);
+        
+        
+        
+      })
+
+      
+      
+      console.log(domHeightArr);
+    }
+    console.log(refHeightCardContainer);
+    
+    return (
+      
     <div id="appbody">
 
       Teams Integrations 
@@ -114,9 +117,7 @@ console.log(showCardBoxPage);
       <main>
         <section className="toDoHeadLineContainer">
           {
-            plannerData.map((dataLists, listNr) => {
-              console.log(listNr);
-              
+            plannerData.map((dataLists, listNr) => {        
               return (
                 <section key={ listNr } className="toDoHeadLinesBox">
                   { dataLists.toDoHeadLine }         
@@ -160,23 +161,15 @@ console.log(showCardBoxPage);
       </main>
       <footer id="toDoCardSidesContainer">
         {
-            plannerData.map((dataLists, countList) => {            
-
-              
-              return(
-                <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
-                  {
-                    promiseFooterArr.then(data => {
-                      console.log(data);
-                      updateFooterArr(data);
-                      console.log(footerArr[1]);
-                      return footerArr;
-                    })
-                  }
-                </section>
-              );
-              
-            })
+          plannerData.map((dataLists, countList) => {      
+            let tes = dataLists.toDoCards.length
+          
+            return(
+              <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
+                {tes}
+              </section>
+            );
+          })
         }
       </footer>
     </div>
