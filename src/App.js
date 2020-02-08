@@ -4,20 +4,23 @@ import './components/styles/App.sass';
 import { createNewInstance } from './components/data/authentication';
 import { runAxiosGet } from './components/data/axiosGet';
 import { toDoList } from './components/data/toDoList';
-import { LogLevel } from 'msal';
+import { LogLevel, UserAgentApplication } from 'msal';
 import style from './components/styles/common.sass';
 let cardBoxSpace = 40;
 let refHeightCardContainer = React.createRef();
 let heightCardBoxesArr = [];
+let currentCardPageArr = [];
+let currentShowingCard = [];
 let refHeightCardsArr = [];
-let currentCardPagArr = [];
 let listCardPagesArr = [];
 let domHeightArr = [];
 
 const App = () => {
   //const [ accessToken, setAccessToken ] = useState('');
-  const [ plannerData, updatePlannerData ] = useState(toDoList);
+  const [ toDoData ] = useState(toDoList);
+  const [ quantityCardPage, updateQuantityCardPage ] = useState(0);
   const [ footerCalc, setFooterCalc ] = useState(false); 
+
   let promiseFooterArr = new Promise(success => {
     window.onload = (event) => {
       createHeightArr();
@@ -39,12 +42,12 @@ const App = () => {
   }
   */ 
   useEffect(() => {
-    if (!plannerData) return;
-  }, [footerCalc]);
+    if (!toDoData) return;
+  }, [quantityCardPage, footerCalc]);
 /*   console.log(accessToken);
   getAuthtoken();
   runAxiosGet( accessToken ); */
-  console.log(plannerData);
+  console.log(toDoData);
 
   let createHeightArr = () => {
     domHeightArr.push(refHeightCardContainer.current.offsetHeight);      
@@ -92,25 +95,32 @@ const App = () => {
  
       for (let index = 0; index < domHeightArr[1].length; index++) {
         let cardQuantity = domHeightArr[1][index].length;
-        let maxListPages = cardQuantity/maxCardShowing;
-        let setListPage = Math.round(maxListPages);
+        let maxCardPage = cardQuantity/maxCardShowing;
+        
+        //Update the card / page
+        updateQuantityCardPage(maxCardPage);
+        let setListPage = Math.round(maxCardPage);
         if (setListPage === 0) setListPage = 1;
         listCardPagesArr.push(setListPage);        
       }  
     }    
-    let autoChangeCardPages = (setListPage) => {
-      setInterval(() => {
+    let autoChangeShowingCard = () => {
+        console.log(toDoData.toDoCards);
+        
+/*       setInterval(() => {
         console.log('Sid byte :)');
         
-      }, 5000, setListPage);
+      }, 5000, ); */
     }
+    console.log(quantityCardPage);
+    
   return (
     <div id="appbody">
         Teams Integrations 
       <main>
         <section className="toDoHeadLineContainer">
           {
-            plannerData.map((dataLists, listNr) => {        
+            toDoData.map((dataLists, listNr) => {        
               return (
                 <section key={ listNr } className="toDoHeadLinesBox">
                   { dataLists.toDoHeadLine }         
@@ -121,7 +131,7 @@ const App = () => {
         </section>  
         <section id="toDoCardContainer" ref={ refHeightCardContainer }>
           {
-            plannerData.map((dataLists, countList) => {
+            toDoData.map((dataLists, countList) => {
               let listName = `list${countList}`;
               
               let getToDoCards = dataLists.toDoCards;
@@ -130,44 +140,49 @@ const App = () => {
 
 
               return(
-                <section key={ countList } className="toDoCardsListContainer">
-                  {
-                    getToDoCards.map((cards, cardBoxNr) => {
-                      refHeightCardsArr[countList].push(React.createRef());
+                <>
+                  <section key={ countList } className="toDoCardsListContainer">
+                    {
+                      /* currentShowingCard.map((cards, cardNr) => {
+                        <div key={ cardNr } className="toDoCardBoxes">
+                          <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
+                          <hr></hr>
+                          <div className="toDoCardHeadContent">{ cards.cardContent }</div>
+                        </div>
+                      }) */
+                    }
+                  </section>
+                  <section key={ countList } className="toDoCardsListContainer hidden">
+                    {
+                      getToDoCards.map((cards, cardNr) => {
+                        refHeightCardsArr[countList].push(React.createRef());
 
-                      return(
-                        <>
-                          <div key={ cardBoxNr } className="toDoCardBoxes">
+                        return(
+                          <div key={ cardNr } className="toDoCardBoxes" ref={ refHeightCardsArr[countList][cardNr]}>
                             <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
                             <hr></hr>
                             <div className="toDoCardHeadContent">{ cards.cardContent }</div>
                           </div>
-                          <div key={ cardBoxNr } className="toDoCardBoxes hidden" ref={ refHeightCardsArr[countList][cardBoxNr]} id={ listName }>
-                            <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
-                            <hr></hr>
-                            <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                          </div>
-                        
-                        </>
-                      );
+                        );
 
-                    })
-                  }
-                 
-                </section>
+                      })
+                    }
+                  </section>
+                </>
               );
             })
           }
+          {autoChangeShowingCard()}
         </section>
       </main>
       <footer id="toDoCardSidesContainer">
         {
-          plannerData.map((dataLists, countList) => {      
+          toDoData.map((dataLists, countList) => {      
             let tes = dataLists.toDoCards.length
           
             return(
               <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
-                {`Sid ${currentCardPagArr[countList]} av ${listCardPagesArr[countList]}`}
+                {`Sid ${currentCardPageArr[countList]} av ${listCardPagesArr[countList]}`}
               </section>
             );
           })
