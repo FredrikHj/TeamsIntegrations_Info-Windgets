@@ -10,8 +10,9 @@ let cardBoxSpace = 40;
 let refHeightCardContainer = React.createRef();
 let heightCardBoxesArr = [];
 let refHeightCardsArr = [];
+let currentCardPagArr = [];
+let listCardPagesArr = [];
 let domHeightArr = [];
-let footerArr = [];
 
 const App = () => {
   //const [ accessToken, setAccessToken ] = useState('');
@@ -39,7 +40,7 @@ const App = () => {
   */ 
   useEffect(() => {
     if (!plannerData) return;
-  }, [footerArr, footerCalc]);
+  }, [footerCalc]);
 /*   console.log(accessToken);
   getAuthtoken();
   runAxiosGet( accessToken ); */
@@ -93,11 +94,16 @@ const App = () => {
         let cardQuantity = domHeightArr[1][index].length;
         let maxListPages = cardQuantity/maxCardShowing;
         let setListPage = Math.round(maxListPages);
-
-        footerArr.push(setListPage);        
+        if (setListPage === 0) setListPage = 1;
+        listCardPagesArr.push(setListPage);        
       }  
     }    
-
+    let autoChangeCardPages = (setListPage) => {
+      setInterval(() => {
+        console.log('Sid byte :)');
+        
+      }, 5000, setListPage);
+    }
   return (
     <div id="appbody">
         Teams Integrations 
@@ -130,11 +136,19 @@ const App = () => {
                       refHeightCardsArr[countList].push(React.createRef());
 
                       return(
-                        <div key={ cardBoxNr } className="toDoCardBoxes" ref={ refHeightCardsArr[countList][cardBoxNr]} id={ listName }>
-                          <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
-                          <hr></hr>
-                          <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                        </div>
+                        <>
+                          <div key={ cardBoxNr } className="toDoCardBoxes">
+                            <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
+                            <hr></hr>
+                            <div className="toDoCardHeadContent">{ cards.cardContent }</div>
+                          </div>
+                          <div key={ cardBoxNr } className="toDoCardBoxes hidden" ref={ refHeightCardsArr[countList][cardBoxNr]} id={ listName }>
+                            <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
+                            <hr></hr>
+                            <div className="toDoCardHeadContent">{ cards.cardContent }</div>
+                          </div>
+                        
+                        </>
                       );
 
                     })
@@ -153,7 +167,7 @@ const App = () => {
           
             return(
               <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
-                {`Sid ${'1'} av ${footerArr[countList]}`}
+                {`Sid ${currentCardPagArr[countList]} av ${listCardPagesArr[countList]}`}
               </section>
             );
           })
