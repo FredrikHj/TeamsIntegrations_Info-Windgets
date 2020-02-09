@@ -1,19 +1,15 @@
 import React, { useEffect, useState} from 'react';
 import './components/styles/App.sass';
 
-import { createNewInstance } from './components/data/authentication';
-import { runAxiosGet } from './components/data/axiosGet';
+/* import { createNewInstance } from './components/data/authentication';
+import { runAxiosGet } from './components/data/axiosGet'; */
 import { toDoList } from './components/data/toDoList';
-import { LogLevel, UserAgentApplication } from 'msal';
-import style from './components/styles/common.sass';
-let cardBoxSpace = 40;
-let refHeightCardContainer = React.createRef();
-let heightCardBoxesArr = [];
-let currentCardPageArr = [];
-let currentShowingCard = [];
-let refHeightCardsArr = [];
-let listCardPagesArr = [];
-let domHeightArr = [];
+import { VisibleToDoCard } from './components/structure/visiableToDoCard';
+import { UnvisibleToDoCard } from './components/structure/invisiableToDoCard';
+import variables from './components/data/variables';
+/* import { LogLevel, UserAgentApplication } from 'msal';
+import style from './components/styles/common.sass'; */
+
 
 const App = () => {
   //const [ accessToken, setAccessToken ] = useState('');
@@ -50,7 +46,7 @@ const App = () => {
   console.log(toDoData);
 
   let createHeightArr = () => {
-    domHeightArr.push(refHeightCardContainer.current.offsetHeight);      
+    variables.domHeightArr.push(variables.refHeightCardContainer.current.offsetHeight);      
 
     //Save it to its space
     /*
@@ -58,19 +54,19 @@ const App = () => {
     Index 1 = Arrays of the lists and holding the height values of the list cards 
     Index 2 is the tot of the values for the specific list!
     */
-    domHeightArr.push(heightCardBoxesArr);
-    domHeightArr.push([]);
-    refHeightCardsArr.map((toDoList, countList) => {
-      heightCardBoxesArr.push([]);
+    variables.domHeightArr.push(variables.heightCardBoxesArr);
+    variables.domHeightArr.push([]);
+    variables.refHeightCardsArr.map((toDoList, countList) => {
+      variables.heightCardBoxesArr.push([]);
       toDoList.map((toDoBoxes, countBoxes) => {
-        domHeightArr[1][countList].push(refHeightCardsArr[countList][countBoxes].current.offsetHeight+40/* +style.cardBoxSpace */);
+        variables.domHeightArr[1][countList].push(variables.refHeightCardsArr[countList][countBoxes].current.offsetHeight+40/* +style.cardBoxSpace */);
       })  
 
       calcHeighOtfCardBoxes(countList)
     });
   }
   let calcHeighOtfCardBoxes = (listNr) => {
-    let getIntoList = domHeightArr[1][listNr];  
+    let getIntoList = variables.domHeightArr[1][listNr];  
     let showCardBoxPage = getIntoList.length;
     
     let savedListTot = 0;
@@ -78,7 +74,7 @@ const App = () => {
     for (let index = 0; index  < getIntoList.length; index++) {
       //Save the tot of a list array at the end as the last index in that array
       savedListTot += getIntoList[index];
-      if (index === getIntoList.length - 1) domHeightArr[2].push(savedListTot);
+      if (index === getIntoList.length - 1) variables.domHeightArr[2].push(savedListTot);
     }
     console.log(showCardBoxPage);
     
@@ -89,19 +85,19 @@ const App = () => {
       setFooterCalc(true);
     })
     let calcCardOfSide = () => {
-      let heightCardContainer = domHeightArr[0];
-      let heightCardBox = domHeightArr[1][0][0];
+      let heightCardContainer = variables.domHeightArr[0];
+      let heightCardBox = variables.domHeightArr[1][0][0];
       let maxCardShowing = heightCardContainer/heightCardBox;
  
-      for (let index = 0; index < domHeightArr[1].length; index++) {
-        let cardQuantity = domHeightArr[1][index].length;
+      for (let index = 0; index < variables.domHeightArr[1].length; index++) {
+        let cardQuantity = variables.domHeightArr[1][index].length;
         let maxCardPage = cardQuantity/maxCardShowing;
         
         //Update the card / page
         updateQuantityCardPage(maxCardPage);
         let setListPage = Math.round(maxCardPage);
         if (setListPage === 0) setListPage = 1;
-        listCardPagesArr.push(setListPage);        
+        variables.listCardPagesArr.push(setListPage);        
       }  
     }    
     let autoChangeShowingCard = () => {
@@ -109,10 +105,10 @@ const App = () => {
         
 /*       setInterval(() => {
         console.log('Sid byte :)');
-        
-      }, 5000, ); */
+         }, 5000, ); */
     }
-    console.log(quantityCardPage);
+    console.log(variables.refHeightCardsArr);
+    console.log(variables.currentCardPageArr);
     
   return (
     <div id="appbody">
@@ -129,45 +125,30 @@ const App = () => {
             })
           }
         </section>  
-        <section id="toDoCardContainer" ref={ refHeightCardContainer }>
+        <section id="toDoCardContainer" ref={ variables.refHeightCardContainer }>
           {
             toDoData.map((dataLists, countList) => {
               let listName = `list${countList}`;
               
               let getToDoCards = dataLists.toDoCards;
 
-              refHeightCardsArr.push([]);
-
+              variables.refHeightCardsArr.push([]);
+              //variables.currentCardPageArr.push([]);
+              let propsArr =[ 
+                getToDoCards,
+                variables.refHeightCardsArr,
+                countList,
+                variables.currentCardPageArr,
+              ];
 
               return(
                 <>
-                  <section key={ countList } className="toDoCardsListContainer">
-                    {
-                      /* currentShowingCard.map((cards, cardNr) => {
-                        <div key={ cardNr } className="toDoCardBoxes">
-                          <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
-                          <hr></hr>
-                          <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                        </div>
-                      }) */
-                    }
-                  </section>
-                  <section key={ countList } className="toDoCardsListContainer hidden">
-                    {
-                      getToDoCards.map((cards, cardNr) => {
-                        refHeightCardsArr[countList].push(React.createRef());
-
-                        return(
-                          <div key={ cardNr } className="toDoCardBoxes" ref={ refHeightCardsArr[countList][cardNr]}>
-                            <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
-                            <hr></hr>
-                            <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                          </div>
-                        );
-
-                      })
-                    }
-                  </section>
+               {   <VisibleToDoCard
+                    propsArr={ propsArr }
+                  />}
+                  <UnvisibleToDoCard
+                    propsArr={ propsArr }
+                  />
                 </>
               );
             })
@@ -182,7 +163,7 @@ const App = () => {
           
             return(
               <section key={ countList } className="toDoHeadLinesBox toDoCardSides">
-                {`Sid ${currentCardPageArr[countList]} av ${listCardPagesArr[countList]}`}
+                {`Sid ${variables.currentCardPageArr[countList]} av ${variables.listCardPagesArr[countList]}`}
               </section>
             );
           })
