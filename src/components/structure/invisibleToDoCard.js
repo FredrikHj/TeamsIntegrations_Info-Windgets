@@ -1,13 +1,18 @@
 import React from 'react';
+let count = 0;
+
 export const InvisibleToDoCard = (props) => {
+    count++;
+    console.log(count);
     let incommingData = props.propsArr;
+
     return(
         <section key={ incommingData[2] } className="toDoCardsListContainer hidden">
             {
                 incommingData[0].map((cards, cardNr) => {
                 // Force the push function only pushing the actual elements
-                if (incommingData[1][incommingData[2]].length <= cardNr) 
-                incommingData[1][incommingData[2]].push(React.createRef());
+                if (incommingData[1][incommingData[2]].length <= cardNr) incommingData[1][incommingData[2]].push(React.createRef());
+                
 
                     return(
                         <div key={ cardNr } className="toDoCardBoxes" ref={ incommingData[1][incommingData[2]][cardNr]}>

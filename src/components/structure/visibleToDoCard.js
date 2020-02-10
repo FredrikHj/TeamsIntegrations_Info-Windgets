@@ -1,25 +1,27 @@
 import React from 'react';
+let count = 0;
 export const VisibleToDoCard = (props) => {
-    let incommingData = props.propsArr;    
+    count++;
+    //let incommingData = props.propsArr;
+    //console.log(incommingData[4]);
+console.log(count);
+
     return(
-        <section key={ incommingData[2] } className="toDoCardsListContainer">
+        <section key={ '' } className="toDoCardsListContainer">
             {
-                incommingData[4][0].map((cards, cardNr) => {
-                    
-                    return(
-                        cards.map((cards, cardNr) => {
-                            //console.log(cards);
-                            return(                                  
-                                <div key={ cardNr } className="toDoCardBoxes">
-                                    <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
-                                    <hr></hr>
-                                    <div className="toDoCardHeadContent">{ cards.cardContent }</div>
-                                </div>
-                                    
-                            );
-                        })
+
+/*                 incommingData[4].map((cards, cardNr) => {
+                    console.log(cards);
+                    // Force the push function only pushing the actual elements
+
+                    return(                                  
+                        <div key={ cardNr } className="toDoCardBoxes">
+                            <div className="toDoCardHeadLine">{ cards.cardHedline }</div>
+                            <hr></hr>
+                            <div className="toDoCardHeadContent">{ cards.cardContent }</div>
+                        </div>
                     );
-                })
+                }) */
             }
         </section>
     );
