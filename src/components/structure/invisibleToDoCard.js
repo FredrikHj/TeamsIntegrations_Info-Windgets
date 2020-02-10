@@ -1,8 +1,8 @@
 import React from 'react';
-export const UnvisibleToDoCard = (props) => {
+export const InvisibleToDoCard = (props) => {
     let incommingData = props.propsArr;
     return(
-        <section key={ incommingData[2] } className="toDoCardsListContainer">
+        <section key={ incommingData[2] } className="toDoCardsListContainer hidden">
             {
                 incommingData[0].map((cards, cardNr) => {
                 // Force the push function only pushing the actual elements

@@ -3,7 +3,7 @@ export let toDoList = [
       toDoHeadLine: 'List 1',
       toDoCards: [
         {
-          cardHedline: 'Card 1',
+          cardHedline: 'Card 1 list 1',
           cardContent: ',kj',
         },
         {
@@ -19,11 +19,11 @@ export let toDoList = [
           cardContent: ',fj,hj',
         },
         {
-          cardHedline: 'Card 5',
+          cardHedline: 'Card 5 list 1',
           cardContent: ',kj',
         },
         {
-          cardHedline: 'Card 6',
+          cardHedline: 'Card 6 list 1',
           cardContent: ',fj,hj',
         },
         {
@@ -35,11 +35,11 @@ export let toDoList = [
           cardContent: ',fj,hj',
         },
         {
-          cardHedline: 'Card 9',
+          cardHedline: 'Card 9 list 1',
           cardContent: ',kj',
         },
         {
-          cardHedline: 'Card 10',
+          cardHedline: 'Card 10 list 1',
           cardContent: ',fj,hj',
         },
         {
@@ -124,11 +124,11 @@ export let toDoList = [
       toDoHeadLine: 'List 2',
       toDoCards: [
         {
-          cardHedline: 'Card 1',
+          cardHedline: 'Card 1 list 2',
           cardContent: 'ferf',
         },
         {
-          cardHedline: 'Card 2',
+          cardHedline: 'Card 2 list 2',
           cardContent: 'aebrt',
         }
       ]

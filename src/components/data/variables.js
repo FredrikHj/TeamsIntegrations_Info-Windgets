@@ -8,6 +8,8 @@ let currentShowingCard = [];
 let refHeightCardsArr = [];
 let listCardPagesArr = [];
 let domHeightArr = [];
+let currentTodoData = [];
+
 
 let variables = {
     cardBoxSpace,
@@ -18,5 +20,6 @@ let variables = {
     refHeightCardsArr,
     listCardPagesArr,
     domHeightArr,
+    currentTodoData,
 }
 export default variables;
