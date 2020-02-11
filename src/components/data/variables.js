@@ -1,24 +1,22 @@
 import React from 'react';
+console.log('veri');
 
-let cardBoxSpace = 40;
-let refHeightCardContainer = React.createRef();
-let heightCardBoxesArr = [];
-let currentCardPageArr = [];
+//let heightCardBoxesArr = [];
+/* let currentCardPageArr = [];
 let currentShowingCard = [];
-let refHeightCardsArr = [];
-let listCardPagesArr = [];
+let refHeightCardsArr = []; */
+//let listCardPagesArr = [];
 let currentTodoData = [];
 let domHeightArr = [];
 let getVisiableDataArr = [];
 
 let variables = {
-    cardBoxSpace,
-    refHeightCardContainer,
-    heightCardBoxesArr,
-    currentCardPageArr,
+    
+    //heightCardBoxesArr,
+/*     currentCardPageArr,
     currentShowingCard,
-    refHeightCardsArr,
-    listCardPagesArr,
+    refHeightCardsArr, */
+    //listCardPagesArr,
     domHeightArr,
     currentTodoData,
     getVisiableDataArr,
