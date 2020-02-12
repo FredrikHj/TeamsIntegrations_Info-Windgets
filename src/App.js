@@ -52,7 +52,7 @@ const App = () => {
   */ 
   useEffect(() => {
     //if (!toDoData || !refHeightCardContainerObj.current) return;
-  }, [listCardPagesArr]);
+  },[]);
   console.log(refHeightCardContainer)
   /*   console.log(accessToken);
   getAuthtoken();
@@ -82,7 +82,8 @@ const App = () => {
       })
       calcHeighOtfCardBoxes(listIndex)
     })
-    
+    toDoData.map((item, listIndex) => listIndex);
+
     refHeightCardsArr.map((item, index) => {
       console.log(refHeightCardsArr[index][1].current.offsetHeight);
       
@@ -182,6 +183,7 @@ const App = () => {
                 />
                 );
               })
+
             }
         </section>
       </main>
