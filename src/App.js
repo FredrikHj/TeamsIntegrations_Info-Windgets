@@ -22,13 +22,10 @@ const App = () => {
   const [ refHeightCardContainer, setRefHeightCardContainer ] = useState(React.createRef()); 
   const [ domHeightArr, setDomHeightArr ] = useState([]); 
   const [ listCardPagesArr, setListCardPagesArr ] = useState([]); 
-
-  //const [ cardPageArr, setCardPageArr ] = useState([]); 
   const [ showingCards, setShowingCards ] = useState([]); 
   const [ refHeightCardsArr, setRefHeightCardsArr ] = useState([]); 
-  //const [ currentTodoData, setCurrentTodoData ] = useState([]); 
-  //const [ getVisibleDataArr, setGetVisibleDataArr] = useState([]); 
-  //let [ loopList, updateLoopList ] = useState(6);
+  const [ cardOfPageArr, setCardOfPageArr ] = useState([]); 
+
   
   
   /*   let getAuthtoken = () => {
@@ -65,7 +62,7 @@ const App = () => {
     console.log('domHeightArr');
     console.log(domHeightArr);
   },[
-    domHeightArr, showingCards
+    domHeightArr, cardOfPageArr, showingCards
   ]);
   
   /*   console.log(accessToken);
@@ -150,6 +147,12 @@ const App = () => {
     return nr1/nr2;
   }
   let fixListPages = (pushToListCardPagesArr, cardOfPage) => {
+    // Fix card / page
+    let pushToCardOfPageArr = [...cardOfPageArr]
+    pushToCardOfPageArr.push(cardOfPage)
+    if (cardOfPageArr.length === 0) setCardOfPageArr(pushToCardOfPageArr);
+    
+    // Fix cardPages
     for (let index = 0; index < domHeightArr[1].length; index++) {
       let cardQuantity = domHeightArr[1][index].length;
       let cardPages = Math.round(cardQuantity/cardOfPage);
@@ -159,49 +162,31 @@ const App = () => {
       setListCardPagesArr(pushToListCardPagesArr);    
     }
   }
-  console.log(domHeightArr[1]);
+  console.log(listCardPagesArr);
   
-  let fixShowingCards = (listIndex) => {
-    let slicedList;
-    console.log(listIndex);
-    
-    let pushToShowingCards = [...showingCards ];
+  let fixShowingCards = (incommingItem, listIndex) => {   
+    let slicedList = [];
     let currentSideNr = 1;
     let startCardIndex = 0;
+    let cardOfPage = cardOfPageArr[0];
+
     let endCardIndex = 0;
     
-    startCardIndex = currentSideNr*0-0; // Start Index 
-    endCardIndex = currentSideNr*0;// End index
+    startCardIndex = currentSideNr*cardOfPage-cardOfPage; // Start Index 
+    endCardIndex = currentSideNr*cardOfPage;// End index
     
     console.log(currentSideNr);
     console.log(startCardIndex);
     console.log(endCardIndex);
+    if (incommingItem.length > cardOfPage) slicedList = incommingItem.slice(startCardIndex, endCardIndex);
+    if (incommingItem.length < cardOfPage) slicedList = incommingItem;
 
-    for (let loopIndex = 0; loopIndex < toDoData.length; loopIndex++) {
-      const element = toDoData[loopIndex].toDoCards;
-      console.log(element);
-      console.log(listIndex === loopIndex);
-      
-      if (listIndex === loopIndex) {
-        let slicedList = toDoData[listIndex].toDoCards.slice(2,5);
-        console.log(slicedList);
-      }
-      
-    }
-    //let showCards = item.slice(2, 3);
-    //pushToShowingCards[index].push(item);
-
-    // Testar med olika slice
-    if (toDoData.length-1 < listIndex) {
-    pushToShowingCards.push(slicedList);
-    setShowingCards(pushToShowingCards);
-    }
+    console.log(incommingItem);
     console.log(slicedList);
-    //   return showCards;
 
+    return slicedList;
   }
-  console.log(showingCards);
-
+ 
   return (
     <div id="appbody">
         Teams Integrations 
@@ -221,8 +206,10 @@ const App = () => {
         <section id="toDoCardContainer" ref={ refHeightCardContainer }> 
           {
             toDoData.map((item, index) => {
-              fixShowingCards(index)
-              console.log(item.toDoCards,);
+              
+              console.log(item.toDoCards);
+              let incommingItem = item.toDoCards;
+              console.log(item.toDoCards);
               
               // Force the push function only pushing the actual elements
               if (refHeightCardsArr.length <= index){
@@ -233,8 +220,8 @@ const App = () => {
              
               return(
                 <ToDoCards key={ index }
-                mainTodoList={ item.toDoCards }
-                fixShowingCards={ showingCards[index] }
+                mainTodoList={ incommingItem }
+                fixShowingCards={ fixShowingCards(incommingItem, index) }
                 refHeightCardsArr={ refHeightCardsArr }
                 listIndex={ index }
                 /* currentCardPageArr={ currentCardPageArr } */
