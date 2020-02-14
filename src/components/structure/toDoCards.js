@@ -1,18 +1,19 @@
 import React from 'react';
 export const ToDoCards = (props) => {
 
+    // All of the props collected in one spot
+    let { mainTodoList, refHeightCardsArr, listIndex, fixShowingCards, } = props;
     return(
         <>
-            <section key={ props.listIndex+1 } className="toDoitemListContainer">
+            <section key={ listIndex+1 } className="toDoitemListContainer">
                 {
-                    props.fixShowingCards.map((item, index) => {
+                    fixShowingCards.map((item, index) => {
                     // Force the push function only pushing the actual elements
                     
-                    if (props.refHeightCardsArr[props.listIndex].length <= index) props.refHeightCardsArr[props.listIndex].push(React.createRef());
-                        //console.log(props.refHeightCardsArr);
-                        
+                    if (refHeightCardsArr[listIndex].length <= index) refHeightCardsArr[listIndex].push(React.createRef());
+   
                         return(
-                            <div key={ index } className="toDoCardBoxes" ref={ props.refHeightCardsArr[props.listIndex][index]}>
+                            <div key={ index } className="toDoCardBoxes" ref={ refHeightCardsArr[listIndex][index]}>
                                 <div className="toDoCardHeadLine">{ item.cardHedline }</div>
                                 <hr></hr>
                                 <div className="toDoCardHeadContent">{ item.cardContent }</div>
@@ -21,16 +22,16 @@ export const ToDoCards = (props) => {
                     })
                 }
             </section>
-            <section key={ props.listIndex } className="toDoitemListContainer hidden">
+            {/* The original container is hidden, this section is just for calculating the the pages the amount of cards are taking  */}
+            <section key={ listIndex } className="toDoitemListContainer hidden">
                 {
-                    props.mainTodoList.map((item, index) => {
+                    mainTodoList.map((item, index) => {
                     // Force the push function only pushing the actual elements
                     
-                    if (props.refHeightCardsArr[props.listIndex].length <= index) props.refHeightCardsArr[props.listIndex].push(React.createRef());
-                        //console.log(props.refHeightCardsArr);
-                        
+                    if (refHeightCardsArr[listIndex].length <= index) refHeightCardsArr[listIndex].push(React.createRef());
+
                         return(
-                            <div key={ index } className="toDoCardBoxes" ref={ props.refHeightCardsArr[props.listIndex][index]}>
+                            <div key={ index } className="toDoCardBoxes" ref={ refHeightCardsArr[listIndex][index]}>
                                 <div className="toDoCardHeadLine">{ item.cardHedline }</div>
                                 <hr></hr>
                                 <div className="toDoCardHeadContent">{ item.cardContent }</div>

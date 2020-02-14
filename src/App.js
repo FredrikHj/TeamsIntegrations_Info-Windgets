@@ -39,18 +39,10 @@ const App = () => {
   }
   */ 
   useEffect(() => {   
-    let promiseFooterArr = new Promise(success => {
-      window.onload = (event) => {
-        
-        success();
-      };
-      
-    })
-    promiseFooterArr.then((data) => {
-      //setFooterCalc(true);
-    })
-    saveHeightValuesIntoArr();
-    handleCardPages();
+    //if (toDoData !== undefined) {
+      saveHeightValuesIntoArr();
+      handleCardPages();
+    //}
     /*     saveHeightValuesIntoArr();
     calcCardPages(); */
     
@@ -163,12 +155,13 @@ const App = () => {
     endCardIndex = currentSideNr*cardOfPage;// End index
     
     if (incommingItem.length > cardOfPage) slicedList = incommingItem.slice(startCardIndex, endCardIndex);
+    if (incommingItem.length < cardOfPage) slicedList = incommingItem;
     console.log("TCL: fixShowingCards -> incommingItem", incommingItem)
-    //if (incommingItem.length < cardOfPage) slicedList = incommingItem;
 
 
-    return incommingItem;
+    return slicedList;
   }
+  console.log("TCL: App -> toDoData", toDoData)
  
   return (
     <div id="appbody">
