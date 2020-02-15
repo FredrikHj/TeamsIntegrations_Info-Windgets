@@ -38,14 +38,11 @@ const App = () => {
     });
   }
   */ 
-  useEffect(() => {   
-    //if (toDoData !== undefined) {
+  useEffect(() => {
+    //if (toDoData !== undefined) { 
       saveHeightValuesIntoArr();
       handleCardPages();
     //}
-    /*     saveHeightValuesIntoArr();
-    calcCardPages(); */
-    
   },[
     domHeightArr, cardOfPageArr, showingCards
   ]);
@@ -61,12 +58,9 @@ const App = () => {
     /* Save the elements height according:
     Index 0 = cardContainers height.
     Index 1 = Arrays of the lists and holding the height values of the list cards 
-    Index 2 is the tot of the values for the specific list! ???0
     */
     pushToDomHeightArr.push(refHeightCardContainer.current.offsetHeight);
     pushToDomHeightArr.push(heightCardBoxesArr);
-    
-    //pushToDomHeightArr.push([]); Space for index 2 ?
     
     // Get out the offsetHeight from eatch cardelement and save the values to a common space 
     for (let listIndex = 0; listIndex < toDoData.length; listIndex++) {
@@ -77,37 +71,9 @@ const App = () => {
       }
       
     } 
-
     // If the hook is emty = update it if not stop
     if (domHeightArr.length === 0) setDomHeightArr(pushToDomHeightArr);
-    /*     toDoData.map((item, listIndex) => {
-      item.toDoCards.map((item, cardIndex) => {
-      })
-      //calcHeighOtfCardBoxes(listIndex)
-    })
-    //toDoData.map((item, listIndex) => listIndex);
-    
-    refHeightCardsArr.map((item, index) => {
-      
-      
-    }); */
-    
   }
-  let calcHeighOtfCardBoxes = (listNr) => {
-    let getIntoList = domHeightArr[1][listNr];  
-    let showCardBoxPage = getIntoList.length;
-    
-    let savedListTot = 0;
-    
-    /* for (let index = 0; index  < getIntoList.length; index++) {
-      //Save the tot of a list array at the end as the last index in that array
-      savedListTot += getIntoList[index];
-      if (index === getIntoList.length - 1) domHeightArr[2].push(savedListTot);
-    } */
-    
-    return showCardBoxPage;
-  } 
-
   let handleCardPages = () => {
     let cardPages = 0;
     let cardOfPage = 0;
@@ -155,13 +121,10 @@ const App = () => {
     endCardIndex = currentSideNr*cardOfPage;// End index
     
     if (incommingItem.length > cardOfPage) slicedList = incommingItem.slice(startCardIndex, endCardIndex);
-    if (incommingItem.length < cardOfPage) slicedList = incommingItem;
     console.log("TCL: fixShowingCards -> incommingItem", incommingItem)
-
-
-    return slicedList;
+    //if (incommingItem.length < cardOfPage) slicedList = incommingItem;
+    return incommingItem;
   }
-  console.log("TCL: App -> toDoData", toDoData)
  
   return (
     <div id="appbody">
