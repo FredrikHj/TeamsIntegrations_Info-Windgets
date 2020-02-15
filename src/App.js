@@ -81,7 +81,7 @@ const App = () => {
     let pushToListCardPagesArr = [...listCardPagesArr];    
     let heightCardContainer = domHeightArr[0];
     
-    if (domHeightArr[1] !== undefined){
+    if (domHeightArr[1] !== undefined && toDoData.length !== 0){
       let heightCardBox = domHeightArr[1][0][0];
       
       // This not handle dynamic cardsBoxes height just static for all cards
@@ -109,43 +109,47 @@ const App = () => {
     }
   }
   
-  let fixShowingCards = (incommingItem, listIndex) => {   
+  let fixShowingCards = (incommingItem, listIndex) => {      
+    console.log("TCL: fixShowingCards -> listIndex", listIndex)
     let slicedList = [];
     let currentSideNr = 1;
     let startCardIndex = 0;
     let cardOfPage = cardOfPageArr[0];
+    console.log("TCL: fixShowingCards -> cardOfPage", cardOfPage)
 
     let endCardIndex = 0;
     
     startCardIndex = currentSideNr*cardOfPage-cardOfPage; // Start Index 
     endCardIndex = currentSideNr*cardOfPage;// End index
-    
-    if (incommingItem.length > cardOfPage) slicedList = incommingItem.slice(startCardIndex, endCardIndex);
+
+    if (incommingItem.length > cardOfPage && listIndex <= incommingItem.length-1) slicedList = incommingItem.slice(startCardIndex, endCardIndex);
+    console.log("TCL: fixShowingCards -> incommingItem.length-1", incommingItem.length-1)
+    console.log("TCL: fixShowingCards -> incommingItem.length", incommingItem.length)
     console.log("TCL: fixShowingCards -> incommingItem", incommingItem)
-    //if (incommingItem.length < cardOfPage) slicedList = incommingItem;
-    return incommingItem;
+    if (incommingItem.length < cardOfPage) slicedList = incommingItem;
+    return slicedList;
   }
- 
+
   return (
     <div id="appbody">
         Teams Integrations 
       <main>
         <section className="toDoHeadLineContainer">
-          {
-            toDoData.map((item, index) => {        
-              return (
-                <section key={ index } className="toDoHeadLinesBox">
-                  { item.toDoHeadLine }         
-                </section>
-              ); 
-            })
+          {(toDoData.length !== 0)
+            ? toDoData.map((item, index) => {        
+                return (
+                  <section key={ index } className="toDoHeadLinesBox">
+                    { item.toDoHeadLine }         
+                  </section>
+                ); 
+              })
+            : <NoIncommingData/> 
           }
         </section>  
         {/* Save ref to correspnding created ref in top of the component */}
         <section id="toDoCardContainer" ref={ refHeightCardContainer }> 
-          {
-            toDoData.map((item, index) => {
-              
+          {(toDoData.length !== 0) 
+            ? toDoData.map((item, index) => {
               let incommingItem = item.toDoCards;
               console.log("TCL: App -> incommingItem", incommingItem)
               
@@ -155,7 +159,7 @@ const App = () => {
                 //currentCardPageArr.push([]);
               };
               // Show correct list and its cards
-             
+            
               return(
                 <ToDoCards key={ index }
                 mainTodoList={ incommingItem }
@@ -166,6 +170,7 @@ const App = () => {
                 />
                 );
               })
+            : <NoIncommingData/>
 
             }
         </section>
@@ -187,3 +192,9 @@ const App = () => {
 }
 
 export default App;
+
+let NoIncommingData = () => {
+  return(
+    <p> Inget data inkommet ! :( </p> 
+  );
+}
