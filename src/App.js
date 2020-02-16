@@ -24,6 +24,7 @@ const App = () => {
   const [ refHeightCardContainer, setRefHeightCardContainer ] = useState(React.createRef()); 
   const [ domHeightArr, setDomHeightArr ] = useState([]); 
   const [ listCardPagesArr, setListCardPagesArr ] = useState([]); 
+  const [ listCardPages, setListCardPages ] = useState([]); // Just temorary for static height 
   const [ showingCards, setShowingCards ] = useState([]); 
   const [ refHeightCardsArr, setRefHeightCardsArr ] = useState([]); 
   const [ cardOfPageArr, setCardOfPageArr ] = useState([]);   
@@ -41,7 +42,7 @@ const App = () => {
   useEffect(() => {
     //if (toDoData !== undefined) { 
       saveHeightValuesIntoArr();
-      calcCardPages();
+      calcCardInPages();
     //}
   },[
     domHeightArr, cardOfPageArr, showingCards
@@ -74,19 +75,16 @@ const App = () => {
     // If the hook is emty = update it if not stop
     if (domHeightArr.length === 0) setDomHeightArr(pushToDomHeightArr);
   }
-  let calcCardPages = () => {
-
+  let calcCardInPages = () => {
     let cardOfPage = 0;
-
-    let pushToListCardPagesArr = [...listCardPagesArr];    
+    //let pushToListCardPagesArr = [...listCardPagesArr];    
     let heightCardContainer = domHeightArr[0];
-    
     if (domHeightArr[1] !== undefined && toDoData.length !== 0){
       let heightCardBox = domHeightArr[1][0][0];
       
       // This not handle dynamic cardsBoxes height just static for all cards
       cardOfPage = Math.round(calcCardPages(heightCardContainer, heightCardBox));
-      setListPagesIntoArr(pushToListCardPagesArr, cardOfPage); 
+      //setListPagesIntoArr(pushToListCardPagesArr, cardOfPage); 
     }
   }
   let calcCardPages = (nr1, nr2) => {
@@ -104,7 +102,7 @@ const App = () => {
       let cardPages = Math.round(cardQuantity/cardOfPage);
       
       //Update list pages
-      pushToListCardPagesArr.push([cardPages]);   
+      pushToListCardPagesArr.push([cardPages]);
       setListCardPagesArr(pushToListCardPagesArr);    
     }
   }
@@ -115,7 +113,8 @@ const App = () => {
     let currentSideNr = 1;
     let startCardIndex = 0;
     let cardOfPage = cardOfPageArr[0];
-    console.log("TCL: fixShowingCards -> cardOfPage", cardOfPage)
+    
+    console.log("TCL: fixShowingCards -> cardOfPage", cardOfPage);
 
     let endCardIndex = 0;
     
@@ -181,7 +180,7 @@ const App = () => {
            
             return(
               <section key={ index } className="toDoHeadLinesBox toDoCardSides">
-               {`Sid ${1/* currentCardPageArr[index] */} av ${listCardPagesArr[index]}`}
+                 {`Sid ${1/* currentCardPageArr[index] */} av ${listCardPagesArr[index]}`}
               </section>
             );
           })
