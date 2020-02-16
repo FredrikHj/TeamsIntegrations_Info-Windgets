@@ -41,7 +41,7 @@ const App = () => {
   useEffect(() => {
     //if (toDoData !== undefined) { 
       saveHeightValuesIntoArr();
-      handleCardPages();
+      calcCardPages();
     //}
   },[
     domHeightArr, cardOfPageArr, showingCards
@@ -74,8 +74,8 @@ const App = () => {
     // If the hook is emty = update it if not stop
     if (domHeightArr.length === 0) setDomHeightArr(pushToDomHeightArr);
   }
-  let handleCardPages = () => {
-    let cardPages = 0;
+  let calcCardPages = () => {
+
     let cardOfPage = 0;
 
     let pushToListCardPagesArr = [...listCardPagesArr];    
@@ -86,13 +86,13 @@ const App = () => {
       
       // This not handle dynamic cardsBoxes height just static for all cards
       cardOfPage = Math.round(calcCardPages(heightCardContainer, heightCardBox));
-      fixListPages(pushToListCardPagesArr, cardOfPage); 
+      setListPagesIntoArr(pushToListCardPagesArr, cardOfPage); 
     }
   }
   let calcCardPages = (nr1, nr2) => {
     return nr1/nr2;
   }
-  let fixListPages = (pushToListCardPagesArr, cardOfPage) => {
+  let setListPagesIntoArr = (pushToListCardPagesArr, cardOfPage) => {
     // Fix card / page
     let pushToCardOfPageArr = [...cardOfPageArr]
     pushToCardOfPageArr.push(cardOfPage)
