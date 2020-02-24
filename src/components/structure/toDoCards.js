@@ -5,7 +5,7 @@ export const ToDoCards = (props) => {
     let { mainTodoList, refHeightCardsArr, listIndex, fixShowingCards, } = props;
     return(
         <>
-            <section key={ listIndex+1 } className="toDoitemListContainer">
+            <section key={ listIndex+1 } className="toDoItemListContainer">
                 {
                     fixShowingCards.map((item, index) => {
                     // Force the push function only pushing the actual elements

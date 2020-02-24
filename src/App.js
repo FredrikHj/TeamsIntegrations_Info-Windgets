@@ -20,7 +20,6 @@ const App = () => {
   count++;
   //const [ accessToken, setAccessToken ] = useState('');
   const [ toDoData, setToDoData ] = useState(toDoList);
-  console.log("TCL: App -> toDoData", toDoData)
   const [ refHeightCardContainer, setRefHeightCardContainer ] = useState(React.createRef()); 
   const [ domHeightArr, setDomHeightArr ] = useState([]); 
   const [ listCardPagesArr, setListCardPagesArr ] = useState([]); 
@@ -122,9 +121,9 @@ const App = () => {
     startCardIndex = currentSideNr*cardOfPage-cardOfPage; // Start Index 
     endCardIndex = currentSideNr*cardOfPage;// End index
 
-    if (incommingItem.length > cardOfPage /* && listIndex <= listIndex */) slicedList = incommingItem.slice(startCardIndex, endCardIndex);
+    if (incommingItem.length > cardOfPage && listIndex <= listIndex ) slicedList = incommingItem.slice(startCardIndex, endCardIndex);
     console.log("TCL: fixShowingCards -> incommingItem", incommingItem)
-    if (incommingItem.length < cardOfPage) slicedList = incommingItem;
+    if (incommingItem.length <= cardOfPage) slicedList = incommingItem;
     return slicedList;
   }
   

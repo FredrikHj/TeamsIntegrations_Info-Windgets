@@ -29,8 +29,7 @@ export let toDoList = [
         { cardHedline: 'Card 2 list 3', cardContent: 'rgereaj'},
         { cardHedline: 'Card 3 list 3', cardContent: 'ewfewf'},
         { cardHedline: 'Card 4 list 3', cardContent: 'kj'},
-        { cardHedline: 'Card 5 list 3', cardContent: 'gzrg',
-        }
+        { cardHedline: 'Card 5 list 3', cardContent: 'gzrg'}
       ]
     },
     {
