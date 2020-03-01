@@ -8,12 +8,9 @@ export const ToDoCards = (props) => {
             <section key={ listIndex+1 } className="toDoItemListContainer">
                 {
                     fixShowingCards.map((item, index) => {
-                    // Force the push function only pushing the actual elements
-                    
-                    if (refHeightCardsArr[listIndex].length <= index) refHeightCardsArr[listIndex].push(React.createRef());
-   
+                    // Force the push function only pushing the actual elements   
                         return(
-                            <div key={ index } className="toDoCardBoxes" ref={ refHeightCardsArr[listIndex][index]}>
+                            <div key={ index } className="toDoCardBoxes">
                                 <div className="toDoCardHeadLine">{ item.cardHedline }</div>
                                 <hr></hr>
                                 <div className="toDoCardHeadContent">{ item.cardContent }</div>
