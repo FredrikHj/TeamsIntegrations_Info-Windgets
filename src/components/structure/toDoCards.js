@@ -1,8 +1,8 @@
 import React from 'react';
 export const ToDoCards = (props) => {
-
     // All of the props collected in one spot
     let { mainTodoList, refHeightCardsArr, listIndex, fixShowingCards, } = props;
+    
     return(
         <>
             <section key={ listIndex+1 } className="toDoItemListContainer">
